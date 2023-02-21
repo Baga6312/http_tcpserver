@@ -16,10 +16,10 @@ class Socket {
     sockaddr_in hint  ;
     int m_socket ;
 
-
+    public:
     int createSocket(int m_socket) {
         m_socket = socket(AF_INET , SOCK_STREAM , 0) ; 
-        if (m_socket = socket(AF_INET , SOCK_STREAM , 0)==-1){ 
+        if (m_socket = socket(AF_INET , SOCK_STREAM , 0)==0){ 
             usleep(500000);
             cerr<<"[-] Error creating socket : exit code "<<m_socket<<endl ;
             return -1 ; 
@@ -36,8 +36,6 @@ class Socket {
         hint.sin_port = htons(port);
         inet_pton(AF_INET,"0.0.0.0",&hint.sin_addr);
 
-        bind(m_socket,(sockaddr*)&hint,sizeof(hint)) ;
-
         if ( bind(m_socket,(sockaddr*)&hint,sizeof(hint))==-1){ 
             usleep(500000);
             cerr<<"[-] Error binding to socket :";
@@ -45,7 +43,7 @@ class Socket {
             return -1 ; 
             exit(1);
         }
-        usleep(800000); 
+        //usleep(800000); 
         cout <<"[+] Binding Socket."<<endl ; 
         return 0 ;  
     }
@@ -65,13 +63,13 @@ class Socket {
         return 0; 
     } 
 
-    public:
+
     Socket(int m_port , int m_socket, sockaddr_in hint) {
-    this->hint=hint; 
-    this->createSocket(m_socket) ; 
-    this->bindSocket(m_port ,m_socket ,hint) ; 
-    this->setListening() ;
-    usleep(900000);
+
+        createSocket(m_socket) ; 
+        bindSocket(m_port ,m_socket ,hint) ; 
+        setListening() ;
+        usleep(900000);
     }
 
 };
